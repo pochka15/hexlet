@@ -1,6 +1,2 @@
-kek:
-	echo Hello
-
-ping-server:
-	ansible all -i inventory.ini -u root -m ping
-
+run-playbook:
+	ansible-playbook playbook.yml -i inventory.ini --tags ${tags}

@@ -1,0 +1,20 @@
+- hosts: prod
+
+  tasks:
+  - name: update cache
+    ansible.builtin.apt:
+      update_cache: yes
+    tags: update-cache
+    
+  - name: install tools
+    ansible.builtin.apt:
+      name: git make nodejs
+    tags: install-tools
+
+  - name: create users
+    ansible.builtin.user:
+      name: arya sansa tirion
+    tags: create-users
+
+
+   
