@@ -15,6 +15,3 @@
     ansible.builtin.user:
       name: arya sansa tirion
     tags: create-users
-
-
-   

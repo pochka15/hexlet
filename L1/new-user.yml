@@ -1,0 +1,28 @@
+- hosts: prod
+
+  tasks:
+  - name: create wheel group
+    ansible.builtin.group:
+      name: wheel
+      state: present
+
+  - name: allow 'wheel' group to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: '^%wheel'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+
+  - name: create akashkou user
+    ansible.builtin.user:
+      name: akashkou
+      groups: wheel
+      state: present
+      create_home: yes
+      shell: /bin/bash
+
+  - name: setup authorized keys
+    authorized_key: user=akashkou key="{{item}}"
+    with_file:
+      - /Users/akashkou/.ssh/digitalocean/id_rsa.pub
