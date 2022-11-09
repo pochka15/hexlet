@@ -1,6 +1,15 @@
 - hosts: prod
 
+  vars:
+    nginx_port: 8080
+    root_dir: /var/tmp/www
+
   tasks:
+    - name: create a root directory
+      ansible.builtin.file:
+        state: directory
+        path: "{{ root_dir }}"
+  
     - name: install nginx
       ansible.builtin.apt:
         name: nginx
@@ -8,9 +17,9 @@
       become: yes
 
     - name: update nginx config
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: files/nginx.conf
-        dest: /etc/nginx/nginx.conf
+        dest: "{{ root_dir }}/nginx.conf"
       notify:
         - restart nginx
       become: yes
@@ -18,7 +27,7 @@
     - name: update index page
       ansible.builtin.copy:
         src: files/index.html
-        dest: /usr/share/nginx/html/index.html
+        dest: "{{ root_dir }}/index.html"
       notify:
         - restart nginx
       become: yes
