@@ -18,7 +18,7 @@
 
     - name: update nginx config
       ansible.builtin.template:
-        src: files/nginx.conf
+        src: nginx.conf
         dest: "{{ root_dir }}/nginx.conf"
       notify:
         - restart nginx
@@ -26,7 +26,7 @@
 
     - name: update index page
       ansible.builtin.copy:
-        src: files/index.html
+        src: index.html
         dest: "{{ root_dir }}/index.html"
       notify:
         - restart nginx
