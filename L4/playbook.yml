@@ -1,0 +1,21 @@
+- hosts: prod
+
+  vars:
+    destination: "/tmp/L4_index.html"
+    server_name: "{{ ansible_facts['dns']['nameservers'][0] }}"
+    message: "{{ ('this is server ' + server_name) | upper }}"
+    date: "{{ ansible_facts['date_time']['date'] }}"
+
+  tasks:
+    - name: Create html file
+      ansible.builtin.template:
+        src: 'index.html'
+        dest: "{{ destination }}"
+
+    - name: Store html contents into a file
+      command: "cat {{ destination }}"
+      register: contents
+
+    - name: Print html contents
+      ansible.builtin.debug:
+        var: contents.stdout
