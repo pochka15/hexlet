@@ -1,0 +1,26 @@
+- hosts: ocean
+  vars:
+    user_name: new_user
+  
+  tasks:
+    - name: Install tools
+      ansible.builtin.apt:
+        name:
+          - git
+        state: present
+      tags: tools
+
+    - name: Create a new user
+      ansible.builtin.user:
+        name: "{{ user_name }}"
+      tags: new_user
+      become: yes
+
+    - name: Upload ssh keys
+      ansible.posix.authorized_key:
+        user: "{{ user_name }}"
+        state: present
+        key: "{{ lookup('file', user_name + '_key') }}"
+      tags: new_user
+      become: yes
+      
