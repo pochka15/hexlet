@@ -1,0 +1,22 @@
+- hosts: prod
+
+  pre_tasks:
+    - name: Install required tools for the apt role
+      ansible.builtin.apt:
+        name:
+          - python3-apt
+          - aptitude
+        state: present
+        update_cache: yes
+      become: yes
+
+  roles:
+    - role: oefenweb.apt
+      vars:
+        apt_install:
+          - git
+          - postgresql
+          - nodejs
+      become: yes
+
+    - role: common

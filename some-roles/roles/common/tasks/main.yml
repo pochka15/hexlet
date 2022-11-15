@@ -1,0 +1,15 @@
+- name: Say hello
+  ansible.builtin.debug:
+    msg: 'Hello'
+
+- name: Create users
+  ansible.builtin.user:
+    name: "{{ item }}"
+  loop:
+    - arya
+    - sansa
+    - tirion
+  become: yes
+
+
+  
