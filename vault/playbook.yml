@@ -1,0 +1,11 @@
+- hosts: prod
+  gather_facts: no
+
+  tasks:
+    - name: Print db server
+      ansible.builtin.debug:
+        msg: "{{ db_server }}"
+
+    - name: Print db token
+      ansible.builtin.debug:
+        msg: "{{ db_token }}"
