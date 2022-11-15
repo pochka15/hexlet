@@ -1,0 +1,8 @@
+- hosts: prod
+  
+  tasks:
+    - name: install tools
+      ansible.builtin.apt:
+        name: git
+        update_cache: yes
+      become: yes

@@ -7,15 +7,19 @@
     date: "{{ ansible_facts['date_time']['date'] }}"
 
   tasks:
-    - name: Create html file
-      ansible.builtin.template:
-        src: 'index.html'
-        dest: "{{ destination }}"
-
-    - name: Store html contents into a file
-      command: "cat {{ destination }}"
-      register: contents
-
-    - name: Print html contents
+    - name: Debug facts
       ansible.builtin.debug:
-        var: contents.stdout
+        var: ansible_facts
+    
+    # - name: Create html file
+    #   ansible.builtin.template:
+    #     src: 'index.html'
+    #     dest: "{{ destination }}"
+
+    # - name: Store html contents into a file
+    #   command: "cat {{ destination }}"
+    #   register: contents
+
+    # - name: Print html contents
+    #   ansible.builtin.debug:
+    #     var: contents.stdout

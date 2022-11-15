@@ -1,0 +1,30 @@
+- hosts: prod
+  gather_facts: no
+
+  vars:
+    users:
+      - jaime
+      - sansa
+      - robert
+
+  tasks:
+    - name: create users
+      ansible.builtin.user:
+        name: "{{ item }}"
+      loop: "{{ users }}"
+      become: yes
+
+    - name: create git config files for users
+      ansible.builtin.template:
+        src: ".gitconfig"
+        dest: "/home/{{ item }}/.gitconfig"
+      loop: "{{ users }}"
+      become: yes
+
+    - name: create authorized keys for users
+      ansible.builtin.authorized_key:
+        user: "{{ item }}"
+        state: present
+        key: "{{ lookup('file', 'public_key') }}"
+      loop: "{{ users }}"
+      become: yes
