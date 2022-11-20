@@ -1,0 +1,111 @@
+{
+    "apps": {
+        "http": {
+            "servers": {
+                "srv0": {
+                    "automatic_https": {
+                        "disable": true
+                    },
+                    "listen": [
+                        ":80"
+                    ],
+                    "routes": [
+                        {
+                            "handle": [
+                                {
+                                    "handler": "subroute",
+                                    "routes": [
+                                        {
+                                            "handle": [
+                                                {
+                                                    "handler": "vars",
+                                                    "root": "site1/"
+                                                },
+                                                {
+                                                    "handler": "file_server",
+                                                    "hide": [
+                                                        "./Caddyfile"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "match": [
+                                {
+                                    "host": [
+                                        "ru.site1.test"
+                                    ]
+                                }
+                            ],
+                            "terminal": true
+                        },
+                        {
+                            "handle": [
+                                {
+                                    "handler": "subroute",
+                                    "routes": [
+                                        {
+                                            "handle": [
+                                                {
+                                                    "handler": "vars",
+                                                    "root": "site2/"
+                                                },
+                                                {
+                                                    "handler": "file_server",
+                                                    "hide": [
+                                                        "./Caddyfile"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "match": [
+                                {
+                                    "host": [
+                                        "ru.site2.test"
+                                    ]
+                                }
+                            ],
+                            "terminal": true
+                        },
+                        {
+                            "handle": [
+                                {
+                                    "handler": "subroute",
+                                    "routes": [
+                                        {
+                                            "handle": [
+                                                {
+                                                    "handler": "vars",
+                                                    "root": "localhost/"
+                                                },
+                                                {
+                                                    "handler": "file_server",
+                                                    "hide": [
+                                                        "./Caddyfile"
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            "match": [
+                                {
+                                    "host": [
+                                        "localhost"
+                                    ]
+                                }
+                            ],
+                            "terminal": true
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

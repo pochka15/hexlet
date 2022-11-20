@@ -1,0 +1,18 @@
+{
+	auto_https off
+}
+
+http://localhost {
+	file_server
+	root * localhost/
+}
+
+http://ru.site1.test {
+	file_server
+	root * site1/
+}
+
+http://ru.site2.test {
+	file_server
+	root * site2/
+}
