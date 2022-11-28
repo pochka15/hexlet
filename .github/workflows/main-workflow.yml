@@ -2,10 +2,12 @@ name: Say hello
 on: push
 
 jobs:
-  sya-hello:
+  main-job:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - run: cd github-actions
-      - run: make say-hello
+      
+      - name: say-hello
+        run: make say-hello
+        working-directory: ./github-actions
