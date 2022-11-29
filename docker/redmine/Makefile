@@ -7,10 +7,10 @@ step6:
 	echo "Step 6 - Database schema objects creation" && RAILS_ENV=production bundle exec rake db:migrate
 
 step7:
-	echo "Step 7 - Database default data set" && RAILS_ENV=production bundle exec rake redmine:load_default_data
+	echo "Step 7 - Database default data set" && RAILS_ENV=production REDMINE_LANG=en bundle exec rake redmine:load_default_data
 
 step9:
-	echo "Step 9 - Test the installation" && bundle exec rails server webrick -e production
+	echo "Step 9 - Test the installation" && bundle exec rails server -u webrick -e production
 
 # Section App
 
