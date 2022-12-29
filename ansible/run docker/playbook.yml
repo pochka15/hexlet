@@ -1,0 +1,21 @@
+- hosts: prod
+
+  vars:
+    nginx_port: 8080
+    work_dir: /tmp/docker-learn
+
+  tasks:  
+    - name: install deps
+      ansible.builtin.apt:
+        name: 
+          - docker
+          - docker-compose
+          - make
+          - sequelize
+        state: latest
+      become: yes
+
+    # - name: clone git repo
+    #   ansible.builtin.git:
+    #     repo: https://github.com/pochka15/devops-for-programmers-project-74
+    #     dest: "{{ work_dir }}"
