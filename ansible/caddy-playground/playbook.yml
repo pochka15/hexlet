@@ -1,0 +1,22 @@
+---
+
+- hosts: playground
+  gather_facts: no
+
+  vars:
+    caddy_file_dir: /etc/caddy
+
+  tasks:
+    - name: update Caddyfile
+      ansible.builtin.copy:
+        src: Caddyfile
+        dest: "{{ caddy_file_dir }}/Caddyfile"
+      notify:
+        - caddy reload
+      become: yes
+
+  handlers:
+    - name: caddy reload
+      ansible.builtin.command:
+        cmd: caddy reload
+        chdir: /etc/caddy            

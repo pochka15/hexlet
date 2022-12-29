@@ -1,0 +1,49 @@
+---
+
+- hosts: playground
+  
+  vars:
+    caddy_file_dir: /etc/caddy
+
+  tasks:
+    - name: create wheel group
+      ansible.builtin.group:
+        name: wheel
+        state: present
+
+    - name: allow 'wheel' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: create akashkou user
+      ansible.builtin.user:
+        name: akashkou
+        groups: wheel
+        state: present
+        create_home: yes
+        shell: /bin/bash
+
+    - name: setup authorized keys
+      authorized_key: user=akashkou key="{{item}}"
+      with_file:
+        - /Users/akashkou/.ssh/digitalocean/id_rsa.pub
+
+    - name: create a root directory
+      ansible.builtin.file:
+        state: directory
+        path: "{{ caddy_file_dir }}"
+      become: yes
+  
+    # Note: It is not enough, see the caddy installation. Need to execute lines below
+    #   sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+    #   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    #   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+    - name: install caddy
+      ansible.builtin.apt:
+        name: caddy
+        update_cache: yes
+      become: yes
