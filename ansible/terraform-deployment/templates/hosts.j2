@@ -1,0 +1,4 @@
+[webservers]
+{% for it in infra.outputs.compute_instances.value %}
+{{it.name}} ansible_host={{it.network_interface.0.nat_ip_address}}
+{% endfor %}

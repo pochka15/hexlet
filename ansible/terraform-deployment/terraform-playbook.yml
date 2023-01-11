@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  vars:
+    - terraform_dir: "{{ playbook_dir }}/terraform"
+  
+  tasks:
+    - name: Create terraform infrastructure
+      community.general.terraform:
+        project_path: "{{ terraform_dir }}"
+        force_init: yes
+        state: present
+      register: infra
+
+    - name: Generate inventory file
+      template:
+        src: templates/hosts.j2
+        dest: inventory.ini
+
